@@ -11,7 +11,8 @@ int main(int argc, char const *argv[])
 		printf("I am thread = %d\n",omp_get_thread_num() );
 	}
 	int sum=0;			//shared for each thread
-	#pragma omp parallel private(sum)
+	//lastprivate private firstprivate difference
+	#pragma omp parallel firstprivate(sum)
 	{
 		for (int i = 0; i < 10; ++i)
 		{
@@ -20,22 +21,43 @@ int main(int argc, char const *argv[])
 	printf("Normal for sum %d\n", sum);
 	}
 	sum=0;
-	#pragma omp parallel private(N)
+/*	#pragma omp parallel private(N)
 	{
 		N=0;
 		for (int i = omp_get_thread_num()*25; i < (omp_get_thread_num()+1)*25; ++i)
 		{
 			N+=i;
 		}
+		#pragma omp critical
 		sum+=N;
 	}
-	printf("Sum: %d\n", sum);
+	printf("Sum with private: %d\n", sum);*/
 	sum=0;
 	#pragma omp for
 		for (int i = 0; i < 100; ++i)
 		{
 			sum+=i;
 		}
-	printf("Sum: %d\n", sum);
+	printf("Sum for: %d\n", sum);
+	
+//-----------------------------------------------------
+	int array[100];
+	#pragma omp for
+	for (int i = 0; i < 100; ++i)
+	{
+		array[i]=i;
+	}
+	sum=0;
+	int temp=0;
+	#pragma omp parallel firstprivate(temp)
+	{
+		for (int i = omp_get_thread_num()*25; i < (omp_get_thread_num()+1)*25; ++i)	
+		{
+			temp+=array[i];
+		}
+		#pragma omp critical
+		sum+=temp;
+	}
+	printf("Sum of array: %d\n",sum);
 	return 0;
 }

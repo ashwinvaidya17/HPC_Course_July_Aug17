@@ -59,5 +59,29 @@ int main(int argc, char const *argv[])
 		sum+=temp;
 	}
 	printf("Sum of array: %d\n",sum);
+	sum=0;
+	#pragma parallel for reduction(+:sum)
+	for (int i = 0; i < 100; ++i)
+	{
+		sum+=array[i];
+	}
+	printf("sum using for pragma %d\n",sum );
+	/*int B[100];
+	#pragma omp for
+	for (int i = 0; i < 100; ++i)
+	{
+		B[i]=i;
+	}
+	#pragma omp for
+	for (int i = 0; i < 100; ++i)
+	{
+		B[i]+=array[i];
+	}
+	printf("Value of B \n");
+	#pragma omp for
+	for (int i = 0; i < 100; ++i)
+	{
+		printf("%d ", B[i]);
+	}*/
 	return 0;
 }

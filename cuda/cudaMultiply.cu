@@ -10,9 +10,9 @@ int main()
 	int SIZE = _size*sizeof(int);
 	int *a,*b,*c;
 	int *d_a,*d_b,*d_c;
-	a = (int *)malloc(SIZE);
-	b = (int *)malloc(SIZE);
-	c = (int *)malloc(SIZE);
+	a = malloc(SIZE);	//Removes int* cast
+	b = malloc(SIZE);
+	c = malloc(SIZE);
 	cudaMalloc((void **)&d_a,SIZE);
 	cudaMalloc((void **)&d_b,SIZE);
 	cudaMalloc((void **)&d_c,SIZE);

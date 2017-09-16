@@ -1,0 +1,10 @@
+//Notes
+/*
+omp_set_num_threads(4);
+#pragma omp parallel
+outside thread sits on heap, visible to all the threads
+inside - private
+int omp_get_thread_num(); - thread id or rank
+int omp_get_num_threads() - number of threads in the team
+double omp_get_wtime(); - time in seconds since a fixed point in past
+*/
